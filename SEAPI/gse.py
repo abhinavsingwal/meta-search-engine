@@ -16,8 +16,8 @@ def get_gse(query):
     html = requests.get("https://www.google.com/search", headers=headers, params=params)
     soup = BeautifulSoup(html.text, 'lxml')
 
-    data = []
-
+    data = {'title':[],'link':[],'snippet':[]}
+    #
     for result in soup.select('.tF2Cxc'):
         title = result.select_one('.DKV0Md').text
         link = result.select_one('.yuRUbf a')['href']
@@ -28,10 +28,14 @@ def get_gse(query):
         except:
             snippet = None
 
-        data.append({
-            'title': title,
-            'link': link,
-            'snippet': snippet,
-        })
+        # data.append({
+        #     'title': title,
+        #     'link': link,
+        #     'snippet': snippet,
+        # })
+        data['title'].append(title)
+        data['link'].append(link)
+        data['snippet'].append(snippet)
 
-    return (json.dumps(data, indent=2, ensure_ascii=False))
+    # return (json.dumps(data, indent=2, ensure_ascii=False))
+    return data
